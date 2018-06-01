@@ -6,6 +6,7 @@
 
 #define ERROR (-1)
 
+#include "webrtchand.h"
 
 void CurrTime()
 {
@@ -33,7 +34,7 @@ CapDevices::CapDevices()
 int CapDevices::init()
 {
     int rc;
-    fp = fopen("x.pcm","ab+");
+    fp = fopen("in.pcm","wb");
     rc = snd_pcm_open(&pcm_handle, "default", SND_PCM_STREAM_CAPTURE, 0);
     if(rc<0)
     {
@@ -62,7 +63,7 @@ int CapDevices::init()
         fprintf(stderr, "cannot set sample format (%s)\n", snd_strerror(rc));
         return ERROR;
     }
-    uint rate = 44100;
+    uint rate = 16000;
     int dir = 0;
     rc = snd_pcm_hw_params_set_rate_near( pcm_handle, hw_params, &rate, &dir); //设置采样率为44.1KHz
     if(rc < 0)
@@ -70,7 +71,7 @@ int CapDevices::init()
         fprintf(stderr, "cannot set sample rate (%s)\n", snd_strerror(rc));
         return ERROR;
     }
-    rc = snd_pcm_hw_params_set_channels( pcm_handle, hw_params,2); //设置为立体声
+    rc = snd_pcm_hw_params_set_channels( pcm_handle, hw_params,1); //设置为立体声
     if(rc<0)
     {
         fprintf(stderr, "cannot set channel count (%s)\n", snd_strerror(rc));
@@ -104,8 +105,9 @@ void CapDevices::readData()
 
         CurrTime();
 
-        if(( err = snd_pcm_readi(pcm_handle, buf, 128)) == 128) {
-             fwrite(buf, 4, 128,fp);
+        if(( err = snd_pcm_readi(pcm_handle, buf, 160)) == 160) {
+             fwrite(buf, 2, 160,fp);
+             SWebrtcHand::instance()->HandAudio(buf);
              printf("hello1 %lu %lu\n",period_size,chunk_byte);
         }
         else if(err == -EPIPE){

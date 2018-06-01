@@ -25,7 +25,7 @@ public:
 
 private:
     FILE *fp;
-    uint buf[1024];
+    int16_t buf[1024];
     unsigned long bit_per_sample; //样本长度(bit)
     unsigned long period_size; //周期长度(帧数)
     unsigned long chunk_byte; //周期长度(字节数)
