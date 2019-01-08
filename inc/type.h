@@ -44,6 +44,9 @@ enum IntentIndex
     PAUSE,
     CONTINUE,
     CHANGE_VOL,
+    CHANGE_VOL_TO,
+    CLOSE_MUSIC,
+    USER_WEATHER,
     TULING
 };
 

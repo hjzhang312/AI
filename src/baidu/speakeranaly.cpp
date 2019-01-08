@@ -7,7 +7,8 @@
 #include <iostream>
 #include <fstream>
 
-static string IntentName[] = {"MUSICINFO","MUSICRANK","PAUSE","CONTINUE","CHANGE_VOL","TULING"};
+static string IntentName[] = {"MUSICINFO","MUSICRANK","PAUSE","CONTINUE","CHANGE_VOL",\
+                              "CHANGE_VOL_TO","CLOSE_MUSIC","USER_WEATHER","TULING"};
 
 SpeakerAnaly::SpeakerAnaly()
 {
@@ -76,57 +77,47 @@ int SpeakerAnaly::messageSend(SpeakeRet info)
 
     if(0 != info.mCode)
         return ret;
-    if("TULING" == info.mIntentName)
+
+    if(info.mIntentConfidence != 100.0)
     {
-        string sayStr =info.mSay ;
-        cout << "mAction: " << info.mAction.size() << endl;
-        if(!info.mAction.empty())
+        if(mTuLingEnable)
         {
-            sayStr.insert(sayStr.rfind("图"),info.mAction);
-            cout << "sayStr: " << sayStr << endl;
+            string resp;
+            if(SHttpLink::instance()->tuLingSkillUrl(info.mStt,resp))
+            {
+                STtsHandle::instance()->playTTs(resp);
+            }
+        }else
+        {
+            string sayStr =info.mSay;
             STtsHandle::instance()->playTTs(sayStr);
-        }
-        if(info.mAction == string("打开"))
-        {
-            mTuLingEnable = true;
-        }
-        else if(string("关闭") == info.mAction)
-        {
-            mTuLingEnable = false;
         }
         return ret;
     }
 
-    if(mTuLingEnable)
+    enum IntentIndex i ;
+    bool isDef = false;
+    for(i = MUSICINFO; i <= TULING; i=(IntentIndex)(i+1))
     {
-        string resp;
-        if(SHttpLink::instance()->tuLingSkillUrl(info.mStt,resp))
+        if(IntentName[i] == info.mIntentName)
         {
-            STtsHandle::instance()->playTTs(resp);
+            isDef = true;
+            break;
         }
-    }
 
-    if(!info.mSay.empty() && (info.mIntentName != "MUSICRANK"))
+    }
+    if(!isDef)
+        return ret;
+
+    cout << "iiiiii: " << i << endl;
+    switch (i) {
+    case MUSICINFO:
     {
         string sayStr =info.mSay ;
         if(!info.mWord.empty())
             sayStr += info.mWord;
         STtsHandle::instance()->playTTs(sayStr);
-    }
-    if(info.mIntentConfidence != 100.0)
-        return ret;
-    if(info.mIntentName.empty())
-        return ret;
-    enum IntentIndex i ;
-    for(i = MUSICINFO; i < CHANGE_VOL; i=(IntentIndex)(i+1))
-    {
-        if(IntentName[i] == info.mIntentName)
-            break;
 
-    }
-    switch (i) {
-    case MUSICINFO:
-    {
         string url = SHttpLink::instance()->getMusicUrl(info.mWord);
         string v = SHttpLink::instance()->StartPlayUrl(url);
         if(!v.empty())
@@ -165,6 +156,11 @@ int SpeakerAnaly::messageSend(SpeakeRet info)
     }
     case PAUSE:
     {
+        string sayStr =info.mSay ;
+        if(!info.mWord.empty())
+            sayStr += info.mWord;
+        STtsHandle::instance()->playTTs(sayStr);
+
         mPausseEnable = true;
         string cmd = string("pause\n");
         SPlayDevices::instance()->setNetMusicEnable(cmd);
@@ -174,21 +170,83 @@ int SpeakerAnaly::messageSend(SpeakeRet info)
     {
         if(mPausseEnable)
         {
+            string sayStr =info.mSay ;
+            if(!info.mWord.empty())
+                sayStr += info.mWord;
+            STtsHandle::instance()->playTTs(sayStr);
+
             string cmd = string("pause\n");
             SPlayDevices::instance()->setNetMusicEnable(cmd);
             mPausseEnable = false;
         }
         break;
     }
-    case TULING:
+    case CHANGE_VOL:
     {
+        string sayStr =info.mSay ;
+        STtsHandle::instance()->playTTs(sayStr);
+
+        if(info.mWord.find("大") != string::npos)
+        {
+            string cmd = string("volume +0.5\n");
+            SPlayDevices::instance()->setNetMusicEnable(cmd);
+        }
+        else if(info.mWord.find("小") != string::npos)
+        {
+            string cmd = string("volume -0.5\n");
+            SPlayDevices::instance()->setNetMusicEnable(cmd);
+        }
+
+        break;
+    }
+    case CHANGE_VOL_TO:
+    {
+        string sayStr =info.mSay ;
+        STtsHandle::instance()->playTTs(sayStr);
+
+        string cmd = string("volume ") + info.mWord + string("\n");
+        SPlayDevices::instance()->setNetMusicEnable(cmd);
+        break;
+    }
+    case CLOSE_MUSIC:
+    {
+        string sayStr =info.mSay ;
+        STtsHandle::instance()->playTTs(sayStr);
+
+        string cmd = string("stop\n");
+        SPlayDevices::instance()->setNetMusicEnable(cmd);
+        break;
+    }
+    case USER_WEATHER:
+    {
+        string sayStr =info.mSay ;
+        STtsHandle::instance()->playTTs(sayStr);
 
         string resp;
         if(SHttpLink::instance()->tuLingSkillUrl(info.mStt,resp))
         {
             STtsHandle::instance()->playTTs(resp);
         }
-
+        break;
+    }
+    case TULING:
+    {
+        string sayStr =info.mSay ;
+        if(!info.mAction.empty())
+        {
+            sayStr = sayStr + info.mAction + info.mWord;
+            //sayStr.insert(sayStr.rfind("图"),info.mAction);
+            cout << "sayStr: " << sayStr << endl;
+            STtsHandle::instance()->playTTs(sayStr);
+        }
+        if(info.mAction == string("打开"))
+        {
+            mTuLingEnable = true;
+        }
+        else if(string("关闭") == info.mAction)
+        {
+            mTuLingEnable = false;
+        }
         break;
     }
     default:

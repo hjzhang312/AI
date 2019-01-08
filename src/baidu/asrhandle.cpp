@@ -144,24 +144,24 @@ void AsrHandle::getAsrSTT(vector<int16_t *> &voiceLsit)
 
 bool AsrHandle::sendAsrMessage(Json::Value root)
 {
-/*
+#if 1
     bool retV = false;
     if(0 != root["err_no"].asInt())
         return retV;
     if(root["result"].isNull())
         return retV;
     string res = root["result"][0].asString();
-    */
+#endif
 
     Json::Value response;
 
-    string res = "南京今天天气怎么样";//"关闭图灵";
+    //string res = "关闭图灵";//"南京今天的天气";//"关闭图灵";
     SHttpLink::instance()->unitSpeaker(res,response);
 
     SpeakeRet ret =  SSpeakerAnaly::instance()->analyStatement(res,response);
 
 
-    cout << " mCode: " << ret.mCode <<" mIntentConfidence: " << ret.mIntentConfidence << " mIntentName:" << ret.mIntentName <<" mIntenrType: " << ret.mIntentType << " Say: "<< ret.mSay <<" word: " << ret.mWord  <<" Action: " <<ret.mAction << endl;
+    cout << "STT: " << ret.mStt << " mCode: " << ret.mCode <<" mIntentConfidence: " << ret.mIntentConfidence << " mIntentName:" << ret.mIntentName <<" mIntenrType: " << ret.mIntentType << " Say: "<< ret.mSay <<" word: " << ret.mWord  <<" Action: " <<ret.mAction << endl;
     SSpeakerAnaly::instance()->messageSend(ret);
     /*
     string url = SHttpLink::instance()->getMusicUrl(ret.mWord);

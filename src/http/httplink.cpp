@@ -341,10 +341,11 @@ bool HttpLink::tuLingSkillUrl(const string text, string &str)
 
     root["key"] = Json::Value(TULING_API_KEY);
     root["info"] = Json::Value(text.c_str());
+    //root["userid"] = Json::Value("123456");
 
 
     strPost = fast_write.write(root);
-    url = string("http://openapi.tuling123.com/openapi/api");
+    url = string("http://www.tuling123.com/openapi/api");
 
     ret = PostUrl(url,strPost,strRequest);
     cout << "strRequest: " << strRequest << endl;
