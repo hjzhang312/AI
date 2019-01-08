@@ -1,8 +1,9 @@
 #ifndef CAPDEVICES_H
 #define CAPDEVICES_H
 
-#include "singleton.h"
 
+#include "singleton.h"
+#include "thread.h"
 #include <alsa/asoundlib.h>
 /*样本长度(sample)：样本是记录音频数据最基本的单位，常见的有8位和16位。
 通道数(channel)：该参数为1表示单声道，2则是立体声。
@@ -14,7 +15,11 @@
 而在非交错模式下，首先记录的是一个周期内所有帧的左声道样本，再记录右声道样本，数据是以连续通道的方式存储。
 */
 
-class CapDevices
+#include "carddevices.h"
+#include <list>
+#include <vector>
+
+class CapDevices : public Thread
 {
 public:
     CapDevices();
@@ -22,10 +27,22 @@ public:
     int init();
 
     void readData();
+    void addData(int16_t buf[]);
+    void rmData();
+
+    void testPipe();
+
+    void Run();
+
+public:
+    list<int16_t*> bufData;
 
 private:
     FILE *fp;
+    pthread_mutex_t  mutex;
     int16_t buf[1024];
+    vector<int16_t*> mVoiceList;
+    cardDevices card;
     unsigned long bit_per_sample; //样本长度(bit)
     unsigned long period_size; //周期长度(帧数)
     unsigned long chunk_byte; //周期长度(字节数)

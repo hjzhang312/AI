@@ -6,34 +6,46 @@ CONFIG -= qt
 SOURCES += main.cpp \
     src/thread.cpp \
     src/capdevices.cpp \
-    src/webrtchand.cpp
+    src/playdevices.cpp \
+    src/carddevices.cpp \
+    src/speex/speexhandle.cpp \
+    src/sphinx/sphinxhandle.cpp \
+    src/baidu/asrhandle.cpp \
+    src/http/httplink.cpp \
+    src/baidu/speakeranaly.cpp \
+    src/baidu/musicdown.cpp \
+    src/musicipc.cpp \
+    src/baidu/ttshandle.cpp
+
+
 
 HEADERS += \
-    src/singleton.h \
-    src/thread.h \
-    src/capdevices.h \
     inc/capdevices.h \
     inc/singleton.h \
     inc/thread.h \
-    inc/webrtc/common.h \
-    inc/webrtc/common_types.h \
-    inc/webrtc/typedefs.h \
-    inc/webrtc/base/arraysize.h \
-    inc/webrtc/base/basictypes.h \
-    inc/webrtc/base/checks.h \
-    inc/webrtc/base/constructormagic.h \
-    inc/webrtc/base/maybe.h \
-    inc/webrtc/system_wrappers/include/trace.h \
-    inc/webrtc/modules/audio_processing/beamformer/array_util.h \
-    inc/webrtc/modules/audio_processing/include/audio_processing.h \
-    inc/webrtc/modules/interface/module_common_types.h \
-    src/webrtchand.h \
-    inc/webrtchand.h \
-    inc/webrtc/base/platform_file.h
+    inc/playdevices.h \
+    inc/carddevices.h \
+    inc/type.h \
+    inc/speex/speexhandle.h \
+    inc/sphinx/sphinxhandle.h \
+    inc/baidu/asrhandle.h \
+    inc/baidu/base/utils.h \
+    inc/baidu/base/http.h \
+    inc/baidu/base/base64.h \
+    inc/baidu/base/base.h \
+    inc/baidu/speech.h \
+    inc/http/httplink.h \
+    inc/baidu/speakeranaly.h \
+    inc/baidu/musicdown.h \
+    inc/musicipc.h \
+    inc/baidu/ttshandle.h
 
 
-INCLUDEPATH += inc inc/webrtc/modules/audio_processing/include/
-DEPENDPATH += inc src lib
 
-LIBS += -lasound -lpthread -L/home/zhj/extend/AI/QtAI/Ai/lib -lwebrtc_audio_processing
+
+INCLUDEPATH += inc inc/speex inc/sphinx inc/baidu inc/baidu/base inc/http /usr/local/include/ /usr/include/jsoncpp/ /usr/local/include/pocketsphinx/ /usr/local/include/sphinxbase/
+DEPENDPATH += inc src src/speex src/sphinx src/baidu src/http
+
+LIBS += -lasound -lpthread -lspeexdsp -lpocketsphinx -lsphinxbase -lsphinxad -lcurl -lcrypto -ljsoncpp
+#-L/home/zhj/work/AI/QtAI/Ai/lib -lwebrtc_audio_processing
 
