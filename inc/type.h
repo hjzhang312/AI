@@ -5,7 +5,8 @@
 #define APP_ID   "15167073"
 #define API_KEY  "Y4DLHdvnUjahMAUakOLv40bR"
 #define SECRET_KEY "wsoSyvXaOUHhNAsNh2VMvU8ZpzgLNPyW"
-#define DEV_LANGUAGE "1536"
+#define DEV_LANGUAGE  "1536"
+// "1737" "1536"
 
 #define AccessToken "24.0c9e48b248900932c329eb84ebe37dce.2592000.1548384450.282335-15167073"
 
@@ -20,9 +21,9 @@
 #define MUTEVOICEFRAMES  50
 #define VADVOICEFRAMES  25
 
-#define HMM  "/home/zhj/work/AI/QtAI/pipeAi/Ai/TAR1545/tdt_sc_8k/"
-#define  LM  "/home/zhj/work/AI/QtAI/pipeAi/Ai/TAR1545/1545.lm"
-#define DICT "/home/zhj/work/AI/QtAI/pipeAi/Ai/TAR1545/1545.dic"
+#define HMM  "../Ai/TAR1545/tdt_sc_8k/"
+#define  LM  "../Ai/TAR1545/1545.lm"
+#define DICT "../Ai/TAR1545/1545.dic"
 
 
 typedef struct
