@@ -18,6 +18,7 @@
 #include "carddevices.h"
 #include <list>
 #include <vector>
+#include <time.h>
 
 class CapDevices : public Thread
 {
@@ -39,6 +40,8 @@ public:
 
 private:
     FILE *fp;
+    bool mAwake;
+    time_t mTime;
     pthread_mutex_t  mutex;
     int16_t buf[1024];
     vector<int16_t*> mVoiceList;

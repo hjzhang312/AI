@@ -17,6 +17,7 @@ public:
     SpeakeRet analyStatement(string stt,Json::Value response);
     int messageSend(SpeakeRet value);
     string trim(string &s);
+    bool getTuLingStatus();
 
     ~SpeakerAnaly();
 

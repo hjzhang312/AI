@@ -14,7 +14,7 @@ public:
     SphinxHandle();
     int initialize(string hmmName,string lmName, string dictName);
 
-    string getVoiceKeyword(vector<int16_t*> &voiceList);
+    bool getVoiceKeyword(vector<int16_t*> &voiceList);
 
 
     ~SphinxHandle();

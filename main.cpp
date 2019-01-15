@@ -19,8 +19,12 @@ using namespace std;
 
 int main()
 {
-
+   // printf("start %ld \n",time((time_t*)NULL));
+   // sleep(3);
+   // printf("end %ld \n",time((time_t*)NULL));
    // SHttpLink::instance()->tuLingPostUrl("附近的酒店");
+
+
 #if 0
     string k ;
     SPlayDevices::instance()->init();

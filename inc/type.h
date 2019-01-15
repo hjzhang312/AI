@@ -18,11 +18,11 @@
 #define VOICEFRAMES  ((FRAME_RATE/100 * 2) * CHANNEL)
 
 #define MUTEVOICEFRAMES  50
-#define VADVOICEFRAMES  50
+#define VADVOICEFRAMES  25
 
-#define HMM  "/home/zhj/work/AI/TAR3398/tdt_sc_8k/"
-#define  LM  "/home/zhj/work/AI/TAR3398/3398.lm"
-#define DICT "/home/zhj/work/AI/TAR3398/3398.dic"
+#define HMM  "/home/zhj/work/AI/QtAI/pipeAi/Ai/TAR1545/tdt_sc_8k/"
+#define  LM  "/home/zhj/work/AI/QtAI/pipeAi/Ai/TAR1545/1545.lm"
+#define DICT "/home/zhj/work/AI/QtAI/pipeAi/Ai/TAR1545/1545.dic"
 
 
 typedef struct

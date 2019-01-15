@@ -129,6 +129,10 @@ int SpeakerAnaly::messageSend(SpeakeRet info)
     }
     case MUSICRANK:
     {
+        if(info.mWord.empty())
+        {
+            info.mWord = "热门歌曲";
+        }
         Json::Value resp;
         if(SHttpLink::instance()->getSingerMusicUrl(info.mWord,resp))
         {
@@ -272,6 +276,11 @@ string SpeakerAnaly::trim(string &s)
         }
     }
     return s;
+}
+
+bool SpeakerAnaly::getTuLingStatus()
+{
+    return mTuLingEnable;
 }
 
 SpeakerAnaly::~SpeakerAnaly()

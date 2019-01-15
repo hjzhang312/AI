@@ -73,7 +73,7 @@ bool SpeexHandle::SpeexVadCheck(int16_t *buf,vector<int16_t*>&voiceList)
             int16_t *speexBuf = (int16_t*)malloc(sizeof(int16_t) * VOICEFRAMES);
             memcpy(speexBuf,buf,sizeof(int16_t) * VOICEFRAMES);
             voiceList.push_back(speexBuf);
-            fwrite(voiceList.back(),2,VOICEFRAMES,fp);
+            //fwrite(voiceList.back(),2,VOICEFRAMES,fp);
         }
     }else
     {
