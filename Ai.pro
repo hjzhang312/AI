@@ -15,7 +15,8 @@ SOURCES += main.cpp \
     src/baidu/speakeranaly.cpp \
     src/baidu/musicdown.cpp \
     src/musicipc.cpp \
-    src/baidu/ttshandle.cpp
+    src/baidu/ttshandle.cpp \
+    src/news.cpp
 
 
 
@@ -38,7 +39,8 @@ HEADERS += \
     inc/baidu/speakeranaly.h \
     inc/baidu/musicdown.h \
     inc/musicipc.h \
-    inc/baidu/ttshandle.h
+    inc/baidu/ttshandle.h \
+    inc/news.h
 
 
 

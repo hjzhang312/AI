@@ -16,7 +16,7 @@ class TtsHandle
 public:
     TtsHandle();
 
-    void playTTs(string text,string per = "0");
+    void playTTs(string text,string per = "0",bool ret = false);
 
     ~TtsHandle();
 

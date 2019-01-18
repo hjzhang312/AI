@@ -12,6 +12,7 @@
 #include "asrhandle.h"
 #include "speakeranaly.h"
 #include "type.h"
+#include "news.h"
 #define ERROR (-1)
 
 static string mKeyResp[] = {" 我在，你说"," 哎，在呢"," 主人，你说"," 来啦",\
@@ -93,7 +94,8 @@ void CapDevices::readData()
                     {
                         mTime = time((time_t*)NULL);
                         printf("mKeyResp:::::%s ,time: %ld\n",mKeyResp[rand()%3],mTime);
-                        STtsHandle::instance()->playTTs(mKeyResp[rand()%6],string("4"));
+                        SNews::instance()->stopNews(false);
+                        STtsHandle::instance()->playTTs(mKeyResp[rand()%6],string("4"),true);
                     }
 
                 }
@@ -119,7 +121,7 @@ void CapDevices::readData()
                 {
                     time_t t = time((time_t*)NULL);
                     printf("time ::: %ld \n",t - mTime);
-                    if(t - mTime > 20)
+                    if(t - mTime > 25)
                     {
                         mAwake = false;
                     }

@@ -4,11 +4,12 @@
 #include "type.h"
 #include "httplink.h"
 #include "playdevices.h"
+#include "news.h"
 #include <iostream>
 #include <fstream>
 
 static string IntentName[] = {"MUSICINFO","MUSICRANK","PAUSE","CONTINUE","CHANGE_VOL",\
-                              "CHANGE_VOL_TO","CLOSE_MUSIC","USER_WEATHER","TULING"};
+                              "CHANGE_VOL_TO","CLOSE_MUSIC","USER_WEATHER","NEWS","TULING"};
 
 SpeakerAnaly::SpeakerAnaly()
 {
@@ -230,6 +231,19 @@ int SpeakerAnaly::messageSend(SpeakeRet info)
         if(SHttpLink::instance()->tuLingSkillUrl(info.mStt,resp))
         {
             STtsHandle::instance()->playTTs(resp);
+        }
+        break;
+    }
+    case NEWS:
+    {
+        string sayStr =info.mSay ;
+        STtsHandle::instance()->playTTs(sayStr);
+
+        Json::Value resp;
+
+        if(SHttpLink::instance()->newsSkillUrl(info.mWord,resp))
+        {
+            SNews::instance()->setNewValue(true,resp);
         }
         break;
     }

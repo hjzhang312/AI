@@ -380,6 +380,58 @@ bool HttpLink::tuLingSkillUrl(const string text, string &str)
     return res;
 }
 
+bool HttpLink::newsSkillUrl(const string text, Json::Value &resp)
+{
+    int ret = -1;
+    bool res = false;
+
+    printf("newsSkillUrl res: %d .",res);
+    //string text_t = UrlEncode(text);
+    string url,strPost,strRequest;
+    Json::Value root;
+    Json::FastWriter fast_write;
+
+    root["key"] = Json::Value(TULING_API_KEY);
+    root["info"] = Json::Value(text.c_str());
+    //root["userid"] = Json::Value("123456");
+
+
+    strPost = fast_write.write(root);
+    url = string("http://www.tuling123.com/openapi/api");
+
+    ret = PostUrl(url,strPost,strRequest);
+    cout << "strRequest: " << strRequest << endl;
+
+    if(CURLE_OK == ret)
+    {
+
+        Json::Reader reader;
+        if(!reader.parse(strRequest,resp))
+        {
+            return res;
+        }
+
+        if(302000 == resp["code"].asInt())
+        {
+            res = true;
+        }
+        else if(40004 == resp["code"].asInt())
+        {
+            string str = string("当天请求次数已使用完");
+           // res = true;
+        }
+
+    }
+    else
+    {
+        return res;
+    }
+
+
+    printf("newsSkillUrl res: %d .",res);
+    return res;
+}
+
 
 
 HttpLink::~HttpLink()

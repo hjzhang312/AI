@@ -30,6 +30,7 @@ public:
     /*************************tuling*********************/
     int tuLingPostUrl(const string text);
     bool tuLingSkillUrl(const string text,string &str);
+    bool newsSkillUrl(const string text, Json::Value &resp);
 
     ~HttpLink();
 

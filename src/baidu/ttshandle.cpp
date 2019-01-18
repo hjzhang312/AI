@@ -17,7 +17,7 @@ TtsHandle::TtsHandle()
     mClient =  new aip::Speech(APP_ID,API_KEY,SECRET_KEY);
 }
 
-void TtsHandle::playTTs(string text,string per)
+void TtsHandle::playTTs(string text,string per,bool ret)
 {
 //    std::ofstream ofile;
    // ofile.open("./test.pcm",ios_base::out|ios_base::binary);
@@ -39,7 +39,7 @@ void TtsHandle::playTTs(string text,string per)
     cout << "tts result: " << result.toStyledString() << tts_ret.size()<<endl;
     if(!tts_ret.empty())
     {
-        SPlayDevices::instance()->setTTSPlay(tts_ret);
+        SPlayDevices::instance()->setTTSPlay(tts_ret,ret);
        // ofile << tts_ret;
       //  ofile.close();
 

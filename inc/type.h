@@ -48,6 +48,7 @@ enum IntentIndex
     CHANGE_VOL_TO,
     CLOSE_MUSIC,
     USER_WEATHER,
+    NEWS,
     TULING
 };
 

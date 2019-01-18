@@ -25,7 +25,7 @@ public:
     bool writeNetMusicData();
 
     void addListSem();
-    void setTTSPlay(string str ="");
+    void setTTSPlay(string str ="",bool ret = false);
 
     void setNetMusicEnable(string cmd);
 public:
@@ -36,6 +36,7 @@ public:
     list<int16_t*> playBufData;
 private:
     FILE *fp;
+    bool mIsContinue;
     string mNetMusicUrl;
     sem_t mStartNetTTSPlayEnable;
     sem_t mNetMusicPlayEnable;

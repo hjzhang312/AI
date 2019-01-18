@@ -11,6 +11,7 @@ using namespace std;
 #include "httplink.h"
 #include "musicdown.h"
 #include "musicipc.h"
+#include "news.h"
 
 #include "type.h"
 #include "ttshandle.h"
@@ -57,12 +58,14 @@ int main()
     //SMusicDown::instance()->Start();
     SCapDevices::instance()->Start();
     SPlayDevices::instance()->Start();
+    SNews::instance()->Start();
 
     //SAsrHandle::instance()->init();
 
     //SMusicDown::instance()->Join();
     SCapDevices::instance()->Join();
     SPlayDevices::instance()->Join();
+    SNews::instance()->Join();
 #endif
 
     cout << "Hello World!" << endl;

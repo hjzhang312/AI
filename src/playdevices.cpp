@@ -18,6 +18,7 @@ PlayDevices::PlayDevices()
 int PlayDevices::init()
 {
     pthread_mutex_init(&mutex,NULL);
+    mIsContinue = true;
     card.init("hw:0,1",SND_PCM_STREAM_PLAYBACK);
     pcm_handle = card.getHandle();
     sem_init(&mListSem,0,0);
@@ -85,14 +86,22 @@ bool PlayDevices::writeData()
 
 bool PlayDevices::writeNetTTSData()
 {
+    if(mNetTTSData.empty())
+        return false;
+
+    mIsContinue  = true;
     int err;
     size_t index = 0;
     string netTTSDataStr = mNetTTSData.front();
+    mNetTTSData.pop_front();
     char netData[2*FRAMES+1] ={0};
     while(netTTSDataStr.size() - index > 0)
     {
-
         memset(netData,0,sizeof(netData));
+        if(!mIsContinue)
+            break;
+
+
         size_t v = netTTSDataStr.copy(netData,2*FRAMES,index);
 
         if( (err= snd_pcm_writei(card.getHandle(),netData, v/2)) == (v/2))
@@ -116,7 +125,7 @@ bool PlayDevices::writeNetTTSData()
             printf("play data size %d\n",err);
         }
     }
-    mNetTTSData.pop_front();
+
 
 }
 
@@ -130,8 +139,14 @@ void PlayDevices::addListSem()
     sem_post(&mListSem);
 }
 
-void PlayDevices::setTTSPlay(string str)
+void PlayDevices::setTTSPlay(string str,bool ret)
 {
+    if(ret)
+    {
+        mNetTTSData.clear();
+        mIsContinue = false;
+    }
+
     mNetTTSData.push_back(str);
     sem_post(&mStartNetTTSPlayEnable);
 }
